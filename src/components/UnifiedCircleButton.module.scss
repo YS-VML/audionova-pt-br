@@ -1,0 +1,382 @@
+@use '../styles/variables' as *;
+
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0);
+  }
+}
+
+.button {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; 
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-white;
+  backdrop-filter: blur(4px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  
+  // Content Transition
+  & > * {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  &.buttonExiting {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+
+  &.buttonExiting > * {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  // Variant: Default (Intro/Start)
+  &.default {
+    &:hover {
+      transform: scale(1.05);
+      // background-color: $color-highlight-green-10;
+      border-color: $color-highlight-green-80;
+    }
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // Variant: Testing (Same size as default, but different visual cues)
+  &.testing {
+    width: 240px; // Larger to match screenshot
+    height: 240px;
+    // Replaced filter drop-shadow with box-shadow to fix Safari clipping issue with overflow: hidden
+    box-shadow: 0 0 30px #72FF87, 0 4px 100px #72FF87, 0 4px 250px rgba(114, 255, 135, 0.20);
+    background: radial-gradient(circle, $color-highlight-green-10 0%, $color-dark-green-40 70%);
+    
+    &:active {
+      transform: scale(0.95);
+    }
+
+    .overlay {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .innerWhiteCircle {
+      width: 134px;
+      height: 134px;
+      background-color: $color-white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $color-dark-green; // Text color inside white circle
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .overlayText {
+      font-size: 18px;
+      font-weight: 350;
+      line-height: 1.2;
+      color: $color-dark-green;
+    }
+  }
+
+  // Variant: Countdown
+  &.countdown {
+    border: none;
+    background: $color-moss-green;
+    // Replaced filter drop-shadow with box-shadow
+    box-shadow: 0 0 50px rgba(114, 255, 135, 0.70);
+    width: 180px;
+    height: 180px;
+    padding: 15px;
+  }
+
+  // Variant: Success
+  &.success {
+    width: 120px;
+    height: 120px;
+    background-color: $color-spring-green;
+    border: 1px solid $color-highlight-green;
+    // Combined existing box-shadow with converted drop-shadows
+    box-shadow: 0 0 40px $color-highlight-green-20, 0 0 30px #72FF87, 0 4px 100px #72FF87;
+    stroke: #5EF480;
+    // filter: drop-shadow(0 0 30px #72FF87) drop-shadow(0 4px 100px #72FF87);
+
+  }
+}
+
+.buttonText {
+  font-family: var(--font-lausanne);
+  font-size: 20px;
+  font-weight: 350;
+  color: $color-forest-green;
+  text-align: center;
+  max-width: 120px;
+  line-height: 1.2;
+  transition: opacity 0.3s;
+}
+
+// Pulse Animations
+@mixin circle-ring($size, $opacity) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  border: 1px solid $color-highlight-green-30;
+  opacity: $opacity;
+  pointer-events: none;
+  transition: all 0.5s;
+}
+
+@mixin oval-ring($width, $height, $opacity) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: $width;
+  height: $height;
+  border-radius: 50%;
+  border: 1px solid $color-highlight-green-30;
+  opacity: 0; // Start invisible for animation
+  pointer-events: none;
+  --target-opacity: #{$opacity};
+  animation: 
+    ring-enter 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    ring-breathe 6s ease-in-out 0.8s infinite;
+}
+
+@keyframes ring-enter {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0.6);
+  }
+  100% {
+    opacity: var(--target-opacity);
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+  }
+}
+
+@keyframes ring-breathe {
+  0% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+    border-radius: 50%;
+  }
+  25% {
+    transform: translate(-50.5%, -49.5%) rotate(46deg) scale(1.02);
+    border-radius: 52% 48% 51% 49% / 51% 49% 52% 48%;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(44deg) scale(1.05);
+    border-radius: 49% 51% 48% 52% / 48% 52% 49% 51%;
+  }
+  75% {
+    transform: translate(-49.5%, -50.5%) rotate(46deg) scale(1.02);
+    border-radius: 51% 49% 52% 48% / 52% 48% 49% 51%;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+    border-radius: 50%;
+  }
+}
+
+@keyframes ring-exit {
+  0% {
+    opacity: var(--target-opacity);
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0.6);
+  }
+}
+
+.pulseCircle1 { 
+  @include oval-ring(240px, 140px, 0.3); 
+  animation-delay: 0s, 0.8s; 
+  &.exiting { animation: ring-exit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+}
+.pulseCircle2 { 
+  @include oval-ring(300px, 180px, 0.2); 
+  animation-delay: 0.1s, 0.9s; 
+  &.exiting { animation: ring-exit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+}
+
+// Testing Ripples (Canvas)
+.rippleCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150vmax; // Default (Mobile): Cover the whole screen for immersive feel
+  height: 150vmax;
+  pointer-events: none;
+  z-index: 1; // Behind button
+
+  // Desktop: Constrain size to prevent "enormous" halo
+  @media (min-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+    max-width: 800px;
+    max-height: 800px;
+  }
+}
+
+// Success Ripples
+.successRipple1 { 
+  @include oval-ring(240px, 140px, 0.2); 
+  border-color: $color-highlight-green-30; 
+  animation-delay: 0s, 0.8s;
+}
+.successRipple2 { 
+  @include oval-ring(300px, 180px, 0.15); 
+  border-color: $color-highlight-green-20; 
+  animation-delay: 0.1s, 0.9s;
+}
+
+// Countdown Styles
+.countdownContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdownSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.countdownCircleBackground {
+  fill: none;
+  stroke: $color-white-10;
+  stroke-width: 1;
+}
+
+.countdownCircleProgress {
+  fill: none;
+  stroke: $color-highlight-green;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 565; // 2 * pi * 90 (approx for r=90 if viewBox is larger, adjusting for r=48 in 100x100)
+  // r=48 -> C = 2 * pi * 48 = 301.59
+  stroke-dasharray: 301.59;
+  stroke-dashoffset: 301.59;
+  animation: fillCircle 1s linear forwards;
+}
+
+@keyframes fillCircle {
+  from { stroke-dashoffset: 301.59; }
+  to { stroke-dashoffset: 0; }
+}
+
+.countdownValue {
+  font-size: 4rem;
+  color: $color-white;
+  font-weight: 300;
+  position: relative;
+  z-index: 2;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Testing Overlay Styles - Simplified for new design
+.overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.overlayText {
+  color: $color-white;
+  font-size: 1rem;
+  text-align: center;
+  max-width: 140px;
+  line-height: 1.2;
+  font-weight: 350;
+}
+
+.successIcon {
+  font-size: 3rem;
+  color: $color-dark-green;
+}
+
+// Testing Progress Animation
+.testingProgressSvg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  width: 152px; // Increased to create spacing around the inner circle
+  height: 152px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.testingCircleBackground {
+  fill: none;
+  stroke: rgba($color-white, 0.3);
+  stroke-width: 1.5; // Thinner stroke
+}
+
+.testingCircleProgress {
+  fill: none;
+  stroke: $color-white;
+  stroke-width: 1.5; // Thinner stroke
+  stroke-linecap: round;
+  stroke-dasharray: 301.59; // 2 * pi * 48
+  stroke-dashoffset: 301.59;
+  animation: fillCircle30s 30s linear forwards;
+}
+
+@keyframes fillCircle30s {
+  from { stroke-dashoffset: 301.59; }
+  to { stroke-dashoffset: 0; }
+}

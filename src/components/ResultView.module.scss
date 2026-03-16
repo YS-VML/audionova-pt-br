@@ -1,0 +1,441 @@
+@use "sass:color";
+@use '../styles/variables' as *;
+
+.container {
+  @include container;
+  @include flex-center;
+  flex-direction: column;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  text-align: center;
+  // background removed
+  padding-top: 0;
+  padding-bottom: 40px;
+  color: $color-white;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: $color-white;
+  font-weight: 300;
+  line-height: 28.8px;
+  max-width: 260px;
+  
+  span {
+    color: $color-spring-green;
+    font-weight: 300;
+  }
+}
+
+.resultGraph {
+  margin-bottom: 4rem;
+  width: 100%;
+  max-width: 300px;
+  position: relative;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+}
+
+.gaugeContainer {
+  position: relative;
+  width: 260px;
+  height: 180px;
+  overflow: hidden;
+}
+
+.gaugeSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(0deg);
+}
+
+.segment {
+  transition: fill 0.3s ease;
+}
+
+.activeSegment0 { fill: mix($color-spring-green, $color-tea-green, 30%); }
+.activeSegment1 { fill: mix($color-spring-green, $color-tea-green, 60%); }
+.activeSegment2 { fill: $color-spring-green; }
+
+.inactiveSegment {
+  fill: rgba(255, 255, 255, 0.2);
+}
+
+.gaugePath {
+  fill: none;
+  stroke: $color-white-20;
+  stroke-width: 25;
+  stroke-linecap: butt;
+}
+
+.gaugeActivePath {
+  fill: none;
+  stroke: $color-highlight-green;
+  stroke-width: 25;
+  stroke-linecap: butt;
+}
+
+.activeSegmentGlow {
+  filter: drop-shadow(0 0 8px $color-highlight-green-60);
+}
+
+.spotlight {
+  position: absolute;
+  bottom: 29px;
+  left: 50%;
+  width: 88px;
+  height: 90px;
+  background: linear-gradient(to bottom, rgba($color-highlight-green, 0) 0%, rgba($color-highlight-green, 0.5) 100%);
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  transform-origin: bottom center;
+  z-index: 1;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.needle {
+  display: none; // Replaced by spotlight
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.legalButton {
+  background: none;
+  border: none;
+  border-bottom: 1px solid $color-white;
+  color: $color-cream;
+  font-family: var(--font-lausanne);
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 25px;
+  cursor: pointer;
+  margin-top: 40px;
+  padding: 0;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.needleCore {
+  display: none; // Replaced by spotlight
+}
+
+.averageLabel {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: $color-white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-weight: 350;
+
+  &::after {
+    content: '';
+    width: 1px;
+    height: 8px;
+    background-color: $color-white;
+  }
+}
+
+.resultLabel {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: $color-highlight-green;
+  font-weight: 500;
+}
+
+.button {
+  padding: 16px 24px;
+  font-size: 14px;
+  background-color: $color-white;
+  color: $color-dark-green;
+  border: none;
+  border-radius: 30px;
+  transition: all 0.3s;
+  font-weight: 500;
+  width: 100%;
+  max-width: 280px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: $color-white;
+    border-color: $color-white;
+    color: $color-dark-green;
+    transform: translateY(-2px);
+  }
+}
+
+.inviteLink {
+  background: none;
+  border: none;
+  color: $color-white;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding-bottom: 4px;
+  border-bottom: 1px solid $color-white;
+  margin-bottom: 25px;
+
+  svg {
+    transform: rotate(-45deg);
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 327px;
+  border: 1px solid $color-highlight-green;
+  border-radius: 20px;
+  padding: 40px 32px;
+  margin-bottom: 24px;
+  text-align: left;
+  background: $color-dark-green-30;
+}
+
+.cardLabel {
+  font-size: 14px;
+  color: $color-white;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 300;
+}
+
+.cardTitle {
+  font-size: 26px;
+  color: $color-white;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.productImage {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.productImg {
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 10px 20px rgba($color-black, 0.3));
+}
+
+.ringBack {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0.5;
+  width: 250px;
+  height: 100px;
+}
+
+.ringFront {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 250px;
+  height: 100px;
+}
+
+.outlineButton {
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 300;
+  background: transparent;
+  color: $color-white;
+  border: 1px solid $color-white;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $color-white;
+    color: $color-dark-green;
+    border-color: $color-white;
+  }
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: $color-white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 300;
+    padding-bottom: 0;
+    border-bottom: 1px solid $color-white;
+    width: fit-content;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: $color-highlight-green;
+      border-color: $color-highlight-green;
+    }
+  }
+}
+
+.contactItem{
+  display: flex;
+  gap: 5px;
+}
+
+.articleCard {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.articleImageContainer {
+  width: 100%;
+  height: 172px;
+  padding: 12px;
+  padding-bottom: 0;
+  overflow: hidden;
+
+  .articleImage {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+}
+
+
+
+.articleContent {
+  padding: 24px 32px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.articleDescription {
+  font-size: 16px;
+  color: $color-white;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+// Desktop Responsive Styles
+.desktopGrid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 1200px;
+    gap: 24px;
+    padding: 0 40px;
+  }
+}
+
+.resultCard {
+  // Mobile: Reset card styles to match original "transparent" look
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin-bottom: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (min-width: 1024px) {
+    // Desktop: Apply card styles
+    border: 1px solid $color-highlight-green !important;
+    background: $color-dark-green-30 !important;
+    padding: 40px 32px !important;
+    width: 100%;
+    max-width: 327px;
+    height: auto;
+    
+    // Adjust internal spacing for desktop card
+    .resultGraph {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.resultActions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Adjust Title for Desktop
+@media (min-width: 1024px) {
+  .title {
+    max-width: 600px;
+    font-size: 3rem;
+    margin-bottom: 60px;
+    line-height: 43px;
+  }
+
+  @media (max-height: 720px) {
+    .title {
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+    }
+  }
+  
+  .card {
+    margin-bottom: 0; // Grid handles gap
+    height: auto; // Stretch to fill height
+  }
+}

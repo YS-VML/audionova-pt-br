@@ -1,0 +1,32 @@
+@use '../styles/variables' as *;
+
+.container {
+  @include flex-center;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.label {
+  font-size: 14px;
+  color: $color-white;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.bars {
+  display: flex;
+  gap: 5px;
+}
+
+.bar {
+  width: 20px;
+  height: 2px;
+  background-color: $color-white;
+  border-radius: 2px;
+  opacity: 0.3;
+
+  &.active {
+    opacity: 1;
+  }
+}
