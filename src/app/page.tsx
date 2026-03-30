@@ -224,7 +224,7 @@ export default function Home() {
       </div>
 
       {/* Persistent Circle Button */}
-      <div className={`${styles.circleContainer} ${styles.bottom}`}>
+      <div className={`${styles.circleContainer} ${styles.bottom} ${circleVariant === 'hidden' ? styles.buttonHidden : ''}`}>
         <UnifiedCircleButton 
           variant={circleVariant}
           label={circleLabel}
