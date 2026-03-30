@@ -223,45 +223,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Persistent Circle Button */}
-      <div className={`${styles.circleContainer} ${styles.bottom} ${circleVariant === 'hidden' ? styles.buttonHidden : ''}`}>
-        <UnifiedCircleButton 
-          variant={circleVariant}
-          label={circleLabel}
-          onClick={circleOnClick}
-          countdownValue={circleCountdown}
-          backgroundImage={circleBackgroundImage}
-        />
-
-        {/* Footer Links (Relative to Circle) */}
-        <div className={styles.relativeFooter}>
-          {(view.startsWith('test-') || view === 'age-selection') && (
-            <button 
-              className={styles.backButton} 
-              onClick={view === 'age-selection' ? handleAgeBack : handleTestBack}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-              </svg>
-              Voltar
-            </button>
-          )}
-
-          {view !== 'result' && (
-            <a 
-              href="#" 
-              className={styles.legalLink}
-              onClick={(e) => {
-                e.preventDefault();
-                setIsLegalOpen(true);
-              }}
-            >
-              Aviso Legal
-            </a>
-          )}
-        </div>
-      </div>
-
       {/* Content Views (Buttonless) */}
       <div className={`${styles.contentLayer} ${(view === 'age-selection' || view === 'result') ? styles.interactive : ''}`}>
         {view === 'welcome' && <WelcomeView buttonless />}
@@ -288,6 +249,45 @@ export default function Home() {
         )}
         
         {view === 'result' && <ResultView onLegalClick={() => setIsLegalOpen(true)} />}
+      </div>
+
+      {/* Persistent Circle Button */}
+      <div className={`${styles.circleContainer} ${styles.bottom} ${circleVariant === 'hidden' ? styles.buttonHidden : ''}`}>
+        <UnifiedCircleButton
+          variant={circleVariant}
+          label={circleLabel}
+          onClick={circleOnClick}
+          countdownValue={circleCountdown}
+          backgroundImage={circleBackgroundImage}
+        />
+
+        {/* Footer Links (Relative to Circle) */}
+        <div className={styles.relativeFooter}>
+          {(view.startsWith('test-') || view === 'age-selection') && (
+            <button
+              className={styles.backButton}
+              onClick={view === 'age-selection' ? handleAgeBack : handleTestBack}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Voltar
+            </button>
+          )}
+
+          {view !== 'result' && (
+            <a
+              href="#"
+              className={styles.legalLink}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsLegalOpen(true);
+              }}
+            >
+              Aviso Legal
+            </a>
+          )}
+        </div>
       </div>
 
       <LegalModal 
