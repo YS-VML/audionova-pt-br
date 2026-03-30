@@ -6,11 +6,11 @@
   min-height: 100vh;
   min-height: 100dvh; // Fix for mobile browsers (Safari iOS)
   background: linear-gradient(168deg, #003120 0%, #008052 100%);
-//   background: radial-gradient(circle at 50% 40%, $color-dark-green-gradient-start 0%, $color-dark-green-gradient-end 100%);
   color: $color-white;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: center; // Vertically center content+button group on tall screens
 }
 
 .fullScreenVideo {
@@ -27,27 +27,32 @@
   position: relative;
   z-index: 100;
   width: 100%;
-  flex: 1;
-  min-height: 0; // Allow flex child to shrink below its content size
+  flex-shrink: 0; // Natural height — don't stretch to fill remaining space
   display: flex;
   flex-direction: column;
   pointer-events: none;
 
-  // Force children's <main> to fill this area instead of 100dvh
+  // Override the min-height: 100dvh from @mixin container so views are natural height
   > :global(main) {
-    min-height: 100%;
-    height: 100%;
+    min-height: 0;
+    height: auto;
   }
 
   &.interactive {
     pointer-events: auto;
-    overflow-y: auto; // Allow scrolling for result/age-selection views
-    // Interactive views may be taller than available space — let them scroll
     > :global(main) {
-      min-height: unset;
+      min-height: 0;
       height: auto;
     }
   }
+}
+
+// Elastic spacer between content and button: grows to fill remaining space, capped at 80px.
+// On small screens it collapses to 0 (no gap, no overlap).
+// On large screens it caps at 80px (button stays close to content, not pinned to bottom).
+.flexSpacer {
+  flex: 1;
+  max-height: 80px;
 }
 
 

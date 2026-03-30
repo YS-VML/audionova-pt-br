@@ -18,7 +18,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 100px; // Push up slightly to leave room for button
+  // margin-bottom removed: button is now in-flow below content, no longer needs reserved space
 }
 
 .title {

@@ -251,6 +251,9 @@ export default function Home() {
         {view === 'result' && <ResultView onLegalClick={() => setIsLegalOpen(true)} />}
       </div>
 
+      {/* Elastic spacer: collapses on small screens, caps at 80px on large screens */}
+      <div className={styles.flexSpacer} />
+
       {/* Persistent Circle Button */}
       <div className={`${styles.circleContainer} ${styles.bottom} ${circleVariant === 'hidden' ? styles.buttonHidden : ''}`}>
         <UnifiedCircleButton

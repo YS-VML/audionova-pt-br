@@ -6,7 +6,8 @@
   justify-content: center;
   align-items: center;
   width: 300px;
-  height: 300px;
+  height: 170px; // Reduced from 300px — pulse animations (max 300×180) overflow visually
+  overflow: visible; // Pulse rings extend beyond layout box without affecting flow
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   
   &.hidden {
