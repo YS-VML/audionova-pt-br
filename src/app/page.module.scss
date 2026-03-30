@@ -10,7 +10,7 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center; // Vertically center content+button group on tall screens
+  justify-content: start; // Vertically center content+button group on tall screens
 }
 
 .fullScreenVideo {
