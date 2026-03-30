@@ -373,10 +373,10 @@
   stroke-linecap: round;
   stroke-dasharray: 301.59; // 2 * pi * 48
   stroke-dashoffset: 301.59;
-  animation: fillCircle30s 30s linear forwards;
+  animation: fillCircle20s 20s linear forwards;
 }
 
-@keyframes fillCircle30s {
+@keyframes fillCircle20s {
   from { stroke-dashoffset: 301.59; }
   to { stroke-dashoffset: 0; }
 }

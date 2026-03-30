@@ -4,24 +4,24 @@ const STAGE_CONFIG: Record<string, { title: string; description: string; next: s
   restaurant: {
     title: "Escute\nos sons do\nrestaurante",
     keyword: "restaurante",
-    description: "Vamos tocar por aproximadamente 30 segundos e iremos aumentando aos poucos. Aperte o botão assim que ouvir.",
+    description: "Vamos tocar por aproximadamente 20 segundos e iremos aumentando aos poucos. Aperte o botão assim que ouvir.",
     next: "street"
   },
   street: {
     title: "Escute\nos sons da\nrua",
     keyword: "rua",
-    description: "Vamos tocar por aproximadamente 30 segundos e iremos aumentando aos poucos. Aperte o botão assim que ouvir.",
+    description: "Vamos tocar por aproximadamente 20 segundos e iremos aumentando aos poucos. Aperte o botão assim que ouvir.",
     next: "music"
   },
   music: {
     title: "Escute a\n música",
     keyword: "música",
-    description: "Vamos tocar por aproximadamente 30 segundos e iremos aumentando aos poucos. Aperte o botão assim que ouvir.",
+    description: "Vamos tocar por aproximadamente 20 segundos e iremos aumentando aos poucos. Aperte o botão assim que ouvir.",
     next: "age-selection"
   }
 };
 
-const TEST_DURATION = 30000;
+const TEST_DURATION = 20000;
 
 export function useTestLogic(stage: string, onNext: (next: string) => void) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
